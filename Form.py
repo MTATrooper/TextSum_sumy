@@ -13,11 +13,13 @@ class MainWindow(QMainWindow, form_class):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.method = 0
+        self.sen_count = 3
         self.cbBMethod.addItems(['textrank', 'lexrank', 'luhn', 'reduction', 'sumbasic', 'kl', 'edmundson'])
         self.btnBrowse.clicked.connect(self.Browse)
         self.cbBMethod.currentIndexChanged.connect(self.selectionchange)
         self.btnSummary.clicked.connect(self.Summary)
         self.btnSave.clicked.connect(self.Save)
+        self.spCount.valueChanged.connect(self.valuechange)
         self.textSource = ''
         self.textSumm = ''
         
@@ -31,12 +33,16 @@ class MainWindow(QMainWindow, form_class):
             self.txtOriginal.setPlainText(textOrigin)
             self.textSource = textOrigin
     
+    def valuechange(self):
+        self.sen_count = self.spCount.value()
+        print('Sen_count: %d' % self.sen_count)
+
     def selectionchange(self, i):
         self.method = i
         print('current method %d: %s' % (i , self.cbBMethod.currentText()))
 
     def Summary(self):
-        textSumm = summarize(self.textSource, sentences_count=3, sum_index= self.method)
+        textSumm = summarize(self.textSource, sentences_count=self.sen_count, sum_index= self.method)
         # dic = {'text': self.textSource}
         # respond = requests.post('http://localhost:5555/summary', json=dic)
         # textSumm = respond.json()['key']

@@ -53,14 +53,9 @@ def edmundson_summarizer(text, stemmer, language, sentences_count):
     parser = PlaintextParser.from_string(text, Tokenizer(language))
     summarizer_luhn = EdmundsonSummarizer(stemmer)
     summarizer_luhn.stop_words = get_stop_words(language)
-    words = ("computing", "learning", "mobile")
-    summarizer_luhn.bonus_words = words
-
-    words = ("another", "and", "some", "next",)
-    summarizer_luhn.stigma_words = words
-
-    words = ("another", "and", "some", "next",)
-    summarizer_luhn.null_words = words
+    summarizer_luhn.bonus_words = ("computing", "learning", "mobile")
+    summarizer_luhn.stigma_words = ("another", "and", "some", "next")
+    summarizer_luhn.null_words = ("another", "and", "some", "next")
 
     sentences = []
     for sentence in summarizer_luhn(parser.document, sentences_count):

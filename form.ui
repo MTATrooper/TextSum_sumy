@@ -40,7 +40,7 @@
    <widget class="QPushButton" name="btnSummary">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>460</x>
       <y>320</y>
       <width>89</width>
       <height>25</height>
@@ -104,6 +104,29 @@
       <width>171</width>
       <height>25</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spCount">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>320</y>
+      <width>48</width>
+      <height>26</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>320</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Số câu</string>
     </property>
    </widget>
   </widget>
