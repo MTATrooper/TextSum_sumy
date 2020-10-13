@@ -14,6 +14,9 @@ from sumy.summarizers.text_rank import TextRankSummarizer
 from sumy.summarizers.sum_basic import SumBasicSummarizer
 from sumy.summarizers.kl import KLSummarizer
 from sumy.summarizers.reduction import ReductionSummarizer
+import os
+import json
+from evaluate import eval_rouge
 
 LANGUAGE = "vietnam"
 stemmer = Stemmer(LANGUAGE)
@@ -117,3 +120,24 @@ def summarize(text, stemmer = stemmer, language = 'vietnam', sentences_count = 2
         }
         return switcher.get(sum_index)
     return switch(sum_index)
+
+if __name__ == "__main__":
+    DATA_DIR = '../ProcessData/vietnews2/test'
+    REF_DIR = '../ProcessData/vietnews2/refs'
+    DECODE_DIR = 'decode/reduction'
+    decoded_dir = os.path.join(DECODE_DIR, 'decoded')
+    if not os.path.exists(DECODE_DIR):
+        os.makedirs(DECODE_DIR)
+    if not os.path.exists(decoded_dir):
+        os.makedirs(decoded_dir)
+    for filename in os.listdir(DATA_DIR):
+        with open(os.path.join(DATA_DIR, filename), 'r') as f:
+            data = json.load(f)
+            text = '\n'.join(data['article'])
+        summ = summarize(text, sum_index=3)
+        with open(os.path.join(decoded_dir, filename.split('.')[0] + '.dec'), 'w') as f:
+            f.write(summ)
+    rouge = eval_rouge(decoded_dir, REF_DIR)
+    print(rouge)
+    with open(os.path.join(DECODE_DIR, 'rouge.txt'), 'w') as f:
+        f.write(rouge)
